@@ -1,0 +1,5 @@
+kernel fiasco -serial_esc -jdb_cmd=JS
+module l4re
+module ned
+module simple-server
+module simple-client
