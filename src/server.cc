@@ -21,10 +21,6 @@ int main()
   Util::Registry_server<> server; 
   SimpleServer simple_server;
   Cap<void> cap = server.registry()->register_obj(&simple_server, "my_server_side");
-  if (!cap.is_valid()) {
-    cout << "Could not register my service, readonly namespace?\n";
-    return 1;
-  }
   server.loop();
   return 0;
 }
