@@ -8,11 +8,11 @@ struct SimpleServer : Server_object
 {
   int dispatch(l4_umword_t, Ipc::Iostream &ios)
   {
-    const char *buf = NULL;
-    unsigned long size;
-    ios >> L4::Ipc::Buf_in<const char>(buf, size);
-    cout << buf;
-    return 0;
+    int n;
+    ios >> n;
+    cout << n << "\n";
+    ios << n * 2;
+    return L4_EOK;
   }
 };
 
