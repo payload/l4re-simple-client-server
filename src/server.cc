@@ -8,8 +8,8 @@ struct SimpleServer : Server_object
 {
   int dispatch(l4_umword_t, Ipc::Iostream &ios)
   {
-    unsigned long size;
     const char *buf = NULL;
+    unsigned long size;
     ios >> L4::Ipc::Buf_in<const char>(buf, size);
     cout << buf;
     return 0;
@@ -18,8 +18,8 @@ struct SimpleServer : Server_object
 
 int main()
 {
-  Util::Registry_server<> server; 
   SimpleServer simple_server;
+  Util::Registry_server<> server;
   Cap<void> cap = server.registry()->register_obj(&simple_server, "my_server_side");
   server.loop();
   return 0;

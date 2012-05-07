@@ -9,10 +9,10 @@ using namespace std;
 
 int main()
 {
-  Cap<void> server = Env::env()->get_cap<void>("my_client_side");
   const char *str = "Whou, a message from outer space!\n";
   Ipc::Iostream ios(l4_utcb());
   ios << Ipc::Buf_cp_out<const char>(str, strlen(str));
+  Cap<void> server = Env::env()->get_cap<void>("my_client_side");
   ios.call(server.cap());
   return 0;
 }
