@@ -18,19 +18,22 @@ entry-name = $(subst \ ,-,$(name))
 ned.lua = $(L4DIR)/conf/platforms/$(entry-name).lua
 modules.list = $(L4DIR)/conf/modules.list
 
-all: fast-clean
-	ln -s $(src)/ned.lua $(ned.lua)
-	echo entry $(entry-name)		>> $(modules.list)
-	echo roottask moe rom/$(entry-name).lua	>> $(modules.list)
-	echo module $(entry-name).lua		>> $(modules.list)
-	cat $(src)/modules.entry		>> $(modules.list)
-	echo \#end entry $(entry-name)		>> $(modules.list)
+all: fast-clean inject compile run
+inject:
+	@ln -s $(src)/ned.lua $(ned.lua)
+	@echo entry $(entry-name)			>> $(modules.list)
+	@echo roottask moe rom/$(entry-name).lua	>> $(modules.list)
+	@echo module $(entry-name).lua			>> $(modules.list)
+	@cat $(src)/modules.entry			>> $(modules.list)
+	@echo \#end entry $(entry-name)			>> $(modules.list)
+compile:
 	$(MAKE) -C $(src)
+run:
 	$(MAKE) -C $(O) qemu E=$(entry-name)
 
 fast-clean:
-	rm -f $(ned.lua)
-	sed -i '/^entry $(entry-name)/,/^#end entry $(entry-name)/d' $(modules.list)
+	@rm -f $(ned.lua)
+	@sed -i '/^entry $(entry-name)/,/^#end entry $(entry-name)/d' $(modules.list)
 
 clean: fast-clean
 	$(MAKE) -C $(src) clean
