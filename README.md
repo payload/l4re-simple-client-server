@@ -53,7 +53,7 @@ ld:start({
          }, "rom/simple-client")
 ```
 
-For this example we ```start``` two tasks, the simple-server and simple-client task. They are connected via ```channel```, an IPC Gate, with each other. ```my_server_side``` is the name of the capability selector in the simple-server task, which gets full access to the IPC Gate. The full access was granted cause of the ```svr``` method. The capability selector in the other task is named ```my_client_side``` and gets the least priviliges <!-- TODO what is least? -->. These capability selectors are named to retrieve them later from the ```caps``` table.
+For this example we ```start``` two tasks, the simple-server and simple-client task. They are connected via ```channel```, an IPC Gate, with each other. ```my_server_side``` is the name of the capability selector in the simple-server task, which gets full access to the IPC Gate. The full access was granted cause of the ```svr``` method. The capability selector in the other task is named ```my_client_side``` and gets the least priviliges. These capability selectors are named to retrieve them later from the ```caps``` table.
 
 ### client.cc
 
@@ -73,7 +73,6 @@ This writes the number into the UTCB at the current location as managed by ```io
 
 ```  ios >> n;  ```
 After the answer from server has arrived, we read some number out of it.
-<!-- TODO is the request number still there or how do i explain the position management in ios? -->
 
 ```  cout << n << "\n";  ```
 And finally we print this number. Done.
@@ -86,7 +85,7 @@ The more complex server contains a very important pattern. It defines a ```Serve
 We define our ```SimpleServer``` as a ```Server_object``` and need to implement its very simple interface.
 
 ```  int dispatch(l4_umword_t, Ipc::Iostream &ios)  ```
-```dispatch``` is the only method needed to implement the interface of ```Server_object```. We discard the first argument, cause we don't need it. <!-- TODO what is the first parameter? --> The second argument is more interesting. It is an already set up ```Ipc::Iostream```, which points to the UTCB containing the earliear send number.
+```dispatch``` is the only method needed to implement the interface of ```Server_object```. We discard the first argument, cause we don't need it. The second argument is more interesting. It is an already set up ```Ipc::Iostream```, which points to the UTCB containing the earliear send number.
 
 ```  ios >> n;  ```
 We can read this number. Particularly ```sizeof(n)``` bytes are read from the UTCB to ```n``` from the current position and the current position is forward by this number of bytes. No we can print the number and send the answer.
@@ -95,7 +94,7 @@ We can read this number. Particularly ```sizeof(n)``` bytes are read from the UT
     ios << n * 2;
     return L4_EOK;
 ```
-The answer is written to the UTCB <!-- TODO which position --> and with ```L4_EOK``` we signal to the one who called ```dispatch``` that everything is alright. <!-- TODO other return values -->
+The answer is written to the UTCB and with ```L4_EOK``` we signal to the one who called ```dispatch``` that everything is alright.
 
 In our ```main``` function we set up our server and the ```Server_object``` we implemented and let the server loop forever for accepting incoming IPCs and answering them.
 
