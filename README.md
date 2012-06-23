@@ -53,7 +53,7 @@ ld:start({
          }, "rom/simple-client")
 ```
 
-For this example we ```start``` two tasks, the simple-server and simple-client task. They are connected via ```channel```, an IPC Gate, with each other. ```my_server_side``` is the name of the capability selector in the simple-server task, which gets full access to the IPC Gate. The full access was granted cause of the ```svr``` method. The capability selector in the other task is named ```my_client_side``` and gets the least priviliges (TODO what is least?). These capability selectors are named to retrieve them later from the ```caps``` table.
+For this example we ```start``` two tasks, the simple-server and simple-client task. They are connected via ```channel```, an IPC Gate, with each other. ```my_server_side``` is the name of the capability selector in the simple-server task, which gets full access to the IPC Gate. The full access was granted cause of the ```svr``` method. The capability selector in the other task is named ```my_client_side``` and gets the least priviliges <!-- TODO what is least? -->. These capability selectors are named to retrieve them later from the ```caps``` table.
 
 ### client.cc
 
@@ -95,7 +95,7 @@ We can read this number. Particularly ```sizeof(n)``` bytes are read from the UT
     ios << n * 2;
     return L4_EOK;
 ```
-The answer is written to (TODO which position) and with ```L4_EOK``` we signal to the one who called ```dispatch``` that everything is alright. (TODO other return values)
+The answer is written to the UTCB <!-- TODO which position --> and with ```L4_EOK``` we signal to the one who called ```dispatch``` that everything is alright. <!-- TODO other return values -->
 
 In our ```main``` function we set up our server and the ```Server_object``` we implemented and let the server loop forever for accepting incoming IPCs and answering them.
 
