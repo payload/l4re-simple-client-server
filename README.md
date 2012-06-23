@@ -105,23 +105,28 @@ ld:start({
 * dispatch is the only method needed to implement the interface of Server_object
 * we discard the first argument (TODO what is the first parameter)
 * the second argument is more interesting
-* it is an already set up ```Ipc::Iostream```, which points to the UTCB containing the earliear
+* it is an already set up ```Ipc::Iostream```, which points to the UTCB containing the earliear send number
 
-    int n;
-    ios >> n;
-    cout << n << "\n";
+```  ios >> n;  ```
+We can read this number. Particularly ```sizeof(n)``` bytes are read from the UTCB to ```n``` from the current position and the current position is forward by this number of bytes. No we can print the number and send the answer.
+
+```
     ios << n * 2;
     return L4_EOK;
+```
+The answer is written to (TODO which position) and with ```L4_EOK``` we signal to the one who called ```dispatch``` that everything is alright. (TODO other return values)
 
+In our ```main``` function we set up our server and the ```Server_object``` we implemented and let the server loop forever for accepting incoming IPCs and answering them.
 
-###
+```  Util::Registry_server<> server;  ```
+We instantiate a ```Registry_server``` which will be the heart of our server task. It maintains a registry, where objects of type ```Server_object``` are registered and has the ```loop``` method, which accepts an incoming IPC containing the capability selector used to identify the registered ```Server_object```. Now the ```Server_object``` can be found in the registry and the incoming IPC can be forwarded as an ```Iostream``` to the ```dispatch``` method of the ```Server_object```, the method above in this file.
 
-  SimpleServer simple_server;
-* we create an instance of our own SimpleServer, which has a method which reads a number, doubles it and sends the doubled number back
+```  Cap<void> cap = server.registry()->register_obj(&simple_server, "my_server_side");  ```
+This is the call which actually registers the our instance of ```SimpleServer``` in the ```registry()``` of the ```Registry_server```. As we already saw in the ```ned.lua``` file, there is the name ```"my_server_side"``` and we use it here to say that whenever an IPC is made to the IPC-Gate named ```"my_server_side"``` the IPC is forwarded to the ```dispatch``` method of ```simple_server```.
 
-  Util::Registry_server<> server;
-  Cap<void> cap = server.registry()->register_obj(&simple_server, "my_server_side");
-  server.loop();
-  return 0;
+Now we have pretty much set up everything we need to let interaction of a client and a server happen.
+
+```  server.loop();  ```
+We can now loop forever and deal with IPCs by forwarding them to our own ```Server_object``` and send our answer back.
 
 ### Conclusion
