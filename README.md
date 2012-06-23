@@ -75,9 +75,9 @@ ld:start({
 
 ```  Ipc::Iostream ios(l4_utcb());  ```
 * the ```Ipc::Iostream ios``` handles the values in the UTCB and calls the kernel for sending these values and receiving other
-* it is basically a wrapper around the kernel calls and aroung the placement of values in the UTCB
+* it is basically a wrapper around the kernel calls and around the placement of values in the UTCB
 * in the constructor of ```ios``` we provide the UTCB in which the ```Iostream``` should write and read the values
-* with ```l4_utcb()``` we get current UTCB of the running thread
+* with ```l4_utcb()``` we get the current UTCB of the running thread
 * 
 
 ```  ios << n;  ```
@@ -105,7 +105,7 @@ ld:start({
 * dispatch is the only method needed to implement the interface of Server_object
 * we discard the first argument (TODO what is the first parameter)
 * the second argument is more interesting
-* it is an already set up Ipc::Iostream, which points to the UTCB containing the earliear
+* it is an already set up ```Ipc::Iostream```, which points to the UTCB containing the earliear
 
     int n;
     ios >> n;
@@ -117,13 +117,11 @@ ld:start({
 ###
 
   SimpleServer simple_server;
-* we create an instance of or own SimpleServer, which has a method which reads a number, doubles it and sends the doubled number back
+* we create an instance of our own SimpleServer, which has a method which reads a number, doubles it and sends the doubled number back
 
   Util::Registry_server<> server;
   Cap<void> cap = server.registry()->register_obj(&simple_server, "my_server_side");
   server.loop();
   return 0;
 
-
-### server.cc
 ### Conclusion
