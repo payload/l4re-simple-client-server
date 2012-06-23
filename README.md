@@ -15,7 +15,7 @@ make
 ### Introduction
 We want to understand more deeply the following simple setup. A simple server and a client, which are just sending numbers between each other and print them. While writing it, we focus on the purpose of each method and object and its role in L4Re.
 
-### overview
+### Overview
 Our two tasks are called simple-client and simple-server. The simple-client sends a number to the simple-server, which prints the received number and sends the number multiplied by two back to the client, which prints the received number also.
 
 To do this we have to go through different steps:
