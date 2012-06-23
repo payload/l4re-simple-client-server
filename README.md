@@ -111,3 +111,5 @@ Now we have pretty much set up everything we need to let interaction of a client
 We can now loop forever and deal with IPCs by forwarding them to our own ```Server_object``` and send our answer back.
 
 ### Conclusion
+
+We have seen a simple setup for a client and a server task in L4Re. With ```Ipc::Iostream``` you can read and write to an UTCB. Methods like ```call``` will initiate an IPC. You automatically get an ```Ipc::Iostream``` when you implement ```Server_object```. ```Server_object``` itself is used handle IPCs and actually do something with requests and construct answers. ```Registry_server``` bundles the loop which receives IPCs and dispatches them to different ```Server_object```s. Adding ```Server_object```s to the server is as simple as registering them at the ```Registry_server```.
