@@ -21,6 +21,10 @@ int main()
   SimpleServer simple_server;
   Util::Registry_server<> server;
   Cap<void> cap = server.registry()->register_obj(&simple_server, "my_server_side");
+  if (!cap.is_valid())
+  {
+      std::cerr << "invalid cap on register_obj 'my_server_side'" << std::endl;
+  }
   server.loop();
   return 0;
 }

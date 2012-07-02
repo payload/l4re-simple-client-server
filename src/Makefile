@@ -2,7 +2,7 @@ PKGDIR          ?= .
 L4DIR           ?= $(PKGDIR)/../..
 
 TARGET               = simple-server simple-client
-REQUIRES_LIBS       := cxx_io cxx_libc_io
+REQUIRES_LIBS       := libstdc++
 SRC_CC_simple-server = server.cc
 SRC_CC_simple-client = client.cc
 
