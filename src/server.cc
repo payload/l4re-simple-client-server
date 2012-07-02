@@ -1,5 +1,5 @@
 #include <l4/re/util/object_registry>
-#include <l4/cxx/iostream>
+#include <iostream>
 
 using namespace L4;
 using namespace L4Re;
@@ -10,7 +10,7 @@ struct SimpleServer : Server_object
   {
     int n;
     ios >> n;
-    cout << n << "\n";
+    std::cout << n << std::endl;
     ios << n * 2;
     return L4_EOK;
   }

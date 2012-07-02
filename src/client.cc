@@ -1,6 +1,6 @@
 #include <l4/re/env>
 #include <l4/cxx/ipc_stream>
-#include <l4/cxx/iostream>
+#include <iostream>
 
 using namespace L4;
 using namespace L4Re;
@@ -13,6 +13,6 @@ int main()
   ios << n;
   ios.call(server.cap());
   ios >> n;
-  cout << n << "\n";
+  std::cout << n << std::endl;
   return 0;
 }
