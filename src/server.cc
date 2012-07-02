@@ -24,6 +24,7 @@ int main()
   if (!cap.is_valid())
   {
       std::cerr << "invalid cap on register_obj 'my_server_side'" << std::endl;
+      return 1;
   }
   server.loop();
   return 0;
