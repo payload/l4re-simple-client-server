@@ -16,10 +16,10 @@ int main()
   }
   Ipc::Iostream ios(l4_utcb());
   ios << n;
-  long err = l4_error(ios.call(server.cap()));
-  if (err)
+  l4_msgtag_t tag = ios.call(server.cap());
+  if (l4_error(tag))
   {
-      std::cerr << "calling server: " << err << std::endl;
+      std::cerr << "calling server: " << l4_error(tag) << std::endl;
       return 1;
   }
   ios >> n;
